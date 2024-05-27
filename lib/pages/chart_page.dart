@@ -99,7 +99,14 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   LineChartData mainData(List<CryptoHourlyData> history) {
-    print(history[0].priceUsd);
+    // get the max and min price
+    double maxPrice =
+        history.map((e) => e.priceUsd).reduce((a, b) => a > b ? a : b);
+    double minPrice =
+        history.map((e) => e.priceUsd).reduce((a, b) => a < b ? a : b);
+    double maxTime = 0;
+    double minTime = 100;
+
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -148,30 +155,30 @@ class _ChartPageState extends State<ChartPage> {
         show: true,
         border: Border.all(color: const Color(0xff37434d)),
       ),
-      minX: 2,
-      maxX: 4,
-      minY: 0,
-      maxY: 6,
+      minX: minPrice,
+      maxX: maxPrice,
+      minY: minTime,
+      maxY: maxTime,
       lineBarsData: [
         LineChartBarData(
-          // spots: const [
-          //   FlSpot(0, 3),
-          //   FlSpot(2.6, 2),
-          //   FlSpot(4.9, 5),
-          //   FlSpot(6.8, 3.1),
-          //   FlSpot(8, 4),
-          //   FlSpot(9.5, 3),
-          //   FlSpot(11, 4),
-          // ],
-          spots: history
-              .map((item) => FlSpot(
-                  item.time.microsecondsSinceEpoch.toDouble(), item.priceUsd))
-              .toList(),
+          spots: const [
+            FlSpot(0, 3),
+            FlSpot(2.6, 2),
+            FlSpot(4.9, 5),
+            FlSpot(6.8, 3.1),
+            FlSpot(8, 4),
+            FlSpot(9.5, 3),
+            FlSpot(11, 4),
+          ],
+          // spots: history
+          //     .map((item) => FlSpot(
+          //         item.time.microsecondsSinceEpoch.toDouble(), item.priceUsd))
+          //     .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
           ),
-          barWidth: 5,
+          barWidth: 1,
           isStrokeCapRound: true,
           dotData: const FlDotData(
             show: true,

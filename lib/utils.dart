@@ -45,7 +45,6 @@ class CryptoHourlyData {
     };
   }
 }
-
 String convertTimestampToTimeFormat(int timestamp) {
   // Create a DateTime object from the timestamp
   DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
